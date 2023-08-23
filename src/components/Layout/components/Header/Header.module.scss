@@ -52,10 +52,7 @@
         position: absolute;
         top: var(--search-top-spacer);
         right: var(--search-button-width);
-        height: calc(
-            var(--search-height) - var(--search-top-spacer) *
-                2
-        );
+        height: calc(var(--search-height) - var(--search-top-spacer) * 2);
         width: 1px;
         background-color: rgba(22, 24, 35, 0.12);
     }
@@ -107,10 +104,33 @@
 //     color: yellow;
 // }
 
+// Actions
+.actions {
+    display: flex;
+    align-items: center;
+}
+
 .more-btn {
     cursor: pointer;
     font-size: 2rem;
     margin-left: 28px;
     padding: 4px 8px;
     background-color: transparent;
+}
+
+.action-btn {
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 2.2rem;
+    padding: 4px 12px;
+    // color: #161823;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 12px;
+    cursor: pointer;
 }
