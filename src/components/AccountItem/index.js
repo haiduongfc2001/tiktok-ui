@@ -4,11 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Image from '~/components/Image';
 import { Link } from 'react-router-dom';
+
+import routesConfig from '~/config/routes';
+
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
     return (
-        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
+        <Link
+            to={routesConfig.profile.replace(':nickname', data.nickname)}
+            className={cx('wrapper')}
+        >
             <Image
                 className={cx('avatar')}
                 src={data.avatar}

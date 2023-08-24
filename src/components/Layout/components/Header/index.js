@@ -20,6 +20,9 @@ import { faCircleQuestion, faUser } from '@fortawesome/free-regular-svg-icons';
 import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from './Search';
+import { Link } from 'react-router-dom';
+
+import routesConfig from '~/config/routes';
 
 const cx = classNames.bind(styles);
 
@@ -94,7 +97,9 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <img src={images.logo} alt="tiktok" />
+                <Link to={routesConfig.home} className={cx('logo-link')}>
+                    <img src={images.logo} alt="tiktok" />
+                </Link>
 
                 <Search />
 
