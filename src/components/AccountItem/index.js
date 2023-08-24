@@ -5,14 +5,14 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Image from '~/components/Image';
 import { Link } from 'react-router-dom';
 
-import routesConfig from '~/config/routes';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
     return (
         <Link
-            to={routesConfig.profile.replace(':nickname', data.nickname)}
+            to={config.routes.profile.replace(':nickname', data.nickname)}
             className={cx('wrapper')}
         >
             <Image
