@@ -57,15 +57,18 @@ function Search() {
 
     const handleChange = (e) => {
         const searchValue = e.target.value;
-        if (!searchValue.startWith(' ')) {
+        if (!searchValue.startsWith(' ')) {
             setSearchValue(searchValue);
         }
     };
 
     return (
+        // Using a wrapper <div> tag around the reference element solves
+        // this by creating a new parentNode context.
         <div>
             <HeadlessTippy
                 interactive
+                appendTo={() => document.body}
                 visible={showResult && searchResult.length > 0}
                 render={(attrs) => (
                     <div
