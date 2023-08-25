@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import Image from '~/components/Image';
 
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountPreview from './AccountPreview/AccountPreview';
@@ -9,12 +10,12 @@ import styles from './SuggestedAccounts.module.scss';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data }) {
     const renderPreview = (props) => {
         return (
             <div tabIndex="-1" {...props}>
                 <PopperWrapper>
-                    <AccountPreview />
+                    <AccountPreview data={data} />
                 </PopperWrapper>
             </div>
         );
@@ -30,20 +31,24 @@ function AccountItem() {
                 render={renderPreview}
             >
                 <div className={cx('account-item')}>
-                    <img
+                    <Image
                         className={cx('avatar')}
-                        src="https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-giso/f087b832acf74c4616195a4c97c317da~c5_100x100.jpeg?x-expires=1692860400&x-signature=C3uReWaLvve0FlUuaKXlupb6A1Y%3D"
-                        alt=""
+                        src={data.avatar}
+                        alt={data.nickname}
                     />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>quocnguyenphu</strong>
-                            <FontAwesomeIcon
-                                className={cx('check')}
-                                icon={faCheckCircle}
-                            />
+                            <strong>{data.nickname}</strong>
+                            {data.tick && (
+                                <FontAwesomeIcon
+                                    className={cx('check')}
+                                    icon={faCheckCircle}
+                                />
+                            )}
                         </p>
-                        <p className={cx('name')}>Quốc Nguyễn Phú</p>
+                        <p
+                            className={cx('name')}
+                        >{`${data.first_name} ${data.last_name}`}</p>
                     </div>
                 </div>
             </Tippy>
