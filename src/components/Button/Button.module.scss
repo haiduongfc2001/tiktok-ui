@@ -21,6 +21,12 @@
         pointer-events: none;
         opacity: 0.5;
     }
+
+    & .title {
+        line-height: 1.8rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
 }
 
 .icon + .title,

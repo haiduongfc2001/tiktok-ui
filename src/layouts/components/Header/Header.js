@@ -28,10 +28,10 @@ const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
     {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
+        icon: <img src={images.languages} alt="tiktok" />,
         title: 'English',
         children: {
-            title: 'English',
+            title: 'Language',
             data: [
                 {
                     type: 'language',
@@ -40,8 +40,153 @@ const MENU_ITEMS = [
                 },
                 {
                     type: 'language',
-                    code: 'vi',
-                    title: 'Tiếng Việt',
+                    code: 'ar',
+                    title: 'العربية',
+                },
+                {
+                    type: 'language',
+                    code: 'bn',
+                    title: 'বাঙ্গালি (ভারত)',
+                },
+                {
+                    type: 'language',
+                    code: 'ceb',
+                    title: 'Cebuano (Pilipinas)',
+                },
+                {
+                    type: 'language',
+                    code: 'cs',
+                    title: 'Čeština (Česká republika)',
+                },
+                {
+                    type: 'language',
+                    code: 'de',
+                    title: 'Deutsch',
+                },
+                {
+                    type: 'language',
+                    code: 'el',
+                    title: 'Ελληνικά (Ελλάδα)',
+                },
+                {
+                    type: 'language',
+                    code: 'es',
+                    title: 'Español',
+                },
+                {
+                    type: 'language',
+                    code: 'fi',
+                    title: 'Suomi (Suomi)',
+                },
+                {
+                    type: 'language',
+                    code: 'fil',
+                    title: 'Filipino (Pilipinas)',
+                },
+                {
+                    type: 'language',
+                    code: 'fr',
+                    title: 'Français',
+                },
+                {
+                    type: 'language',
+                    code: 'he',
+                    title: 'עברית (ישראל)',
+                },
+                {
+                    type: 'language',
+                    code: 'hi',
+                    title: 'हिंदी',
+                },
+                {
+                    type: 'language',
+                    code: 'hu',
+                    title: 'Magyar (Magyarország)',
+                },
+                {
+                    type: 'language',
+                    code: 'id',
+                    title: 'Bahasa Indonesia (Indonesia)',
+                },
+                {
+                    type: 'language',
+                    code: 'it',
+                    title: 'Italiano (Italia)',
+                },
+                {
+                    type: 'language',
+                    code: 'ja',
+                    title: '日本語（日本）',
+                },
+                {
+                    type: 'language',
+                    code: 'jv',
+                    title: 'Basa Jawa (Indonesia)',
+                },
+                {
+                    type: 'language',
+                    code: 'km',
+                    title: 'ខ្មែរ (កម្ពុជា)',
+                },
+                {
+                    type: 'language',
+                    code: 'ko',
+                    title: '한국어 (대한민국)',
+                },
+                {
+                    type: 'language',
+                    code: 'ms',
+                    title: 'Bahasa Melayu (Malaysia)',
+                },
+                {
+                    type: 'language',
+                    code: 'my',
+                    title: 'မြန်မာ (မြန်မာ)',
+                },
+                {
+                    type: 'language',
+                    code: 'nl',
+                    title: 'Nederlands (Nederland)',
+                },
+                {
+                    type: 'language',
+                    code: 'pl',
+                    title: 'Polski (Polska)',
+                },
+                {
+                    type: 'language',
+                    code: 'pt',
+                    title: 'Português (Brasil)',
+                },
+                {
+                    type: 'language',
+                    code: 'ro',
+                    title: 'Română (Romania)',
+                },
+                {
+                    type: 'language',
+                    code: 'ru',
+                    title: 'Русский (Россия)',
+                },
+                {
+                    type: 'language',
+                    code: 'sv',
+                    title: 'Svenska (Sverige)',
+                },
+                {
+                    type: 'language',
+                    code: 'th',
+                    title: 'ไทย (ไทย)',
+                },
+                {
+                    type: 'language',
+                    code: 'tr',
+                    title: 'Türkçe (Türkiye)',
+                },
+                {
+                    type: 'language',
+                    code: 'uk',
+                    title: 'Українська (Україна)',
                 },
             ],
         },
@@ -82,8 +227,8 @@ function Header() {
         },
         {
             icon: <FontAwesomeIcon icon={faGear} />,
-            title: 'Setting',
-            to: '/setting',
+            title: 'Settings',
+            to: '/settings',
         },
         ...MENU_ITEMS,
         {
