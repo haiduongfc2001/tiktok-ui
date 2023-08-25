@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './AccountItem.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,11 +11,14 @@ import config from '~/config';
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
+    const profileConvert = config.routes.profile.replace(
+        ':nickname',
+        data.nickname,
+    );
+    // console.log(profileConvert);
     return (
-        <Link
-            to={config.routes.profile.replace(':nickname', data.nickname)}
-            className={cx('wrapper')}
-        >
+        // <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
+        <Link to={profileConvert} className={cx('wrapper')}>
             <Image
                 className={cx('avatar')}
                 src={data.avatar}
@@ -35,5 +39,9 @@ function AccountItem({ data }) {
         </Link>
     );
 }
+
+AccountItem.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 
 export default AccountItem;
