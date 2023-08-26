@@ -14,11 +14,14 @@ export const getSuggested = async ({ page, perPage }) => {
     }
 };
 
-export const getFollowing = async ({ page }) => {
+export const getFollowing = async ({ page, authToken }) => {
     try {
-        const res = await httpRequest.get('me/followings', {
+        const res = await httpRequest.get(`me/followings`, {
             params: {
                 page,
+            },
+            headers: {
+                Authorization: `Bearer ${authToken}`,
             },
         });
         return res.data;
