@@ -26,8 +26,8 @@ function Sidebar() {
     const [isSeeAll, setIsSeeAll] = useState(false);
     const [suggestedUsers, setSuggestedUsers] = useState([]);
     const [followingUsers, setFollowingUsers] = useState([]);
-    const [hasFetched, setHasFetched] = useState(false);
-    const [hasFetcheddasdasd, setHasFetchedAsdasd] = useState(false);
+    // const [hasFetched, setHasFetched] = useState(false);
+    // const [hasFetcheddasdasd, setHasFetchedAsdasd] = useState(false);
 
     useEffect(() => {
         // if (!hasFetcheddasdasd) {
