@@ -10,11 +10,14 @@
 
 .account-item {
     display: flex;
+    align-items: center;
     padding: 8px;
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(22, 24, 35, 0.03);
+        border-radius: 8px;
+        background-color: rgba(34, 9, 220, 0.03);
+        // background-color: rgba(22, 24, 35, 0.03);
     }
 }
 
@@ -30,11 +33,19 @@
     margin-left: 12px;
 }
 
+.nickname,
+.name {
+    max-width: 145px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .nickname {
     margin-top: 0;
     font-size: 1.6rem;
     color: #161823;
-    line-height: 1;
+    line-height: 21px;
 }
 
 .check {
