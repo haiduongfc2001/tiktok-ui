@@ -8,6 +8,7 @@
     --text-color: #161823;
 
     --font-family: 'ProximaNova', sans-serif;
+    --font-family-TikTokFont: 'TikTokFont', sans-serif;
 
     // Default layout
     --default-layout-header-height: 60px;
@@ -79,7 +80,7 @@ a {
     font-weight: 700;
 }
 @font-face {
-    font-family: ProximaNova;
+    font-family: TikTokFont;
     src: url('/assets/fonts/TikTokFont-Bold.woff2');
     font-weight: 700;
 }
