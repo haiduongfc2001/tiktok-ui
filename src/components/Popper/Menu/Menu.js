@@ -7,6 +7,7 @@ import MenuItem from './MenuItem';
 import Header from './Header';
 import styles from './Menu.module.scss';
 import { useState } from 'react';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -16,11 +17,17 @@ function Menu({
     children,
     items = [],
     placement,
+    shareMoreButton,
     hideOnClick = false,
     onChange = defaultFn,
 }) {
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
+    const remainingShareVideo = items && items.slice(5, items.length);
+
+    // console.log(remainingShareVideo);
+
+    const [clickedShareMore, setClickedShareMore] = useState(false);
 
     const renderItems = () => {
         return current.data.map((item, index) => {
@@ -46,13 +53,26 @@ function Menu({
         setHistory((prev) => prev.slice(0, prev.length - 1));
     };
 
+    const handleMoreShare = () => {
+        setHistory((prev) => [...prev, { data: remainingShareVideo }]);
+        setClickedShareMore(true);
+    };
+
     const renderResult = (attrs) => (
         <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
             <PopperWrapper className={cx('menu-popper')}>
-                {history.length > 1 && (
+                {history.length > 1 && !shareMoreButton && (
                     <Header title={current.title} onBack={handleBack} />
                 )}
                 <div className={cx('menu-body')}>{renderItems()}</div>
+                {shareMoreButton && !clickedShareMore && (
+                    <button
+                        className={cx('share-more')}
+                        onClick={handleMoreShare}
+                    >
+                        <img src={images.shareMore} alt="share more" />
+                    </button>
+                )}
             </PopperWrapper>
         </div>
     );
@@ -63,17 +83,20 @@ function Menu({
     };
 
     return (
-        <Tippy
-            interactive
-            delay={[0, 700]}
-            offset={[12, 8]}
-            hideOnClick={hideOnClick}
-            placement={placement}
-            render={renderResult}
-            onHide={handleReset}
-        >
-            {children}
-        </Tippy>
+        <div>
+            <Tippy
+                interactive
+                delay={[0, 700]}
+                offset={[12, 8]}
+                hideOnClick={hideOnClick}
+                placement={placement}
+                // shareMoreButton={shareMoreButton}
+                render={renderResult}
+                onHide={handleReset}
+            >
+                {children}
+            </Tippy>
+        </div>
     );
 }
 

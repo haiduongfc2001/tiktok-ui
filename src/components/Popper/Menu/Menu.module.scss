@@ -53,3 +53,12 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.share-more {
+    cursor: pointer;
+    background-color: #fff;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+}
