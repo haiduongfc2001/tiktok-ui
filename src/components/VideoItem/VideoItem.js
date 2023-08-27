@@ -2,9 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './VideoItem.module.scss';
 import { Link } from 'react-router-dom';
 import routes from '~/config/routes';
-// import images from '~/assets/images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import images from '~/assets/images';
@@ -21,7 +20,28 @@ function VideoItem({ video }) {
     // const [volume, setVolume] = useState(false);
 
     const videoInfoUser = video.user;
-    const fileShareVideo = shareVideo.slice(0, 5);
+    const fiveShareVideo = shareVideo.slice(0, 5);
+    const remainingShareVideo = shareVideo.filter((item, index) => index >= 5);
+
+    const [isLiked, setIsLiked] = useState(false);
+    const [isFavoriteAdded, setIsFavoriteAdded] = useState(false);
+    const [animateLike, setAnimateLike] = useState(false); // New state for animation
+
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
+        setAnimateLike(true); // Trigger animation
+        setTimeout(() => {
+            setAnimateLike(false); // Reset animation after it finishes
+        }, 600); // Animation duration
+    };
+
+    const handleFavoriteClick = () => {
+        setIsFavoriteAdded(!isFavoriteAdded);
+        setAnimateLike(true); // Trigger animation
+        setTimeout(() => {
+            setAnimateLike(false); // Reset animation after it finishes
+        }, 600); // Animation duration
+    };
 
     return (
         <div className={cx('content')}>
@@ -103,20 +123,27 @@ function VideoItem({ video }) {
                         </video>
                     </div>
                     <div className={cx('video-interaction')}>
-                        <button className={cx('video-like')}>
-                            <span className={cx('video-like-icon')}>
-                                {/* <FontAwesomeIcon
-                                    className={cx('icon')}
-                                    icon={faHeart}
-                                /> */}
+                        <button
+                            className={cx('video-like', {
+                                'heart-animation': isLiked && animateLike,
+                            })}
+                            onClick={handleLikeClick}
+                        >
+                            <span
+                                className={cx('video-like-icon', {
+                                    liked: isLiked,
+                                })}
+                            >
                                 <img
                                     className={cx('video-icon')}
-                                    src={images.like}
+                                    src={isLiked ? images.liked : images.like}
                                     alt="like"
                                 />
                             </span>
                             <strong className={cx('text-icon')}>
-                                {video.likes_count}
+                                {isLiked
+                                    ? video.likes_count + 1
+                                    : video.likes_count}
                             </strong>
                         </button>
                         <button className={cx('video-comment')}>
@@ -135,24 +162,41 @@ function VideoItem({ video }) {
                                 {video.comments_count}
                             </strong>
                         </button>
-                        <button className={cx('video-favorite')}>
-                            <span className={cx('video-favorite-icon')}>
-                                <FontAwesomeIcon
+                        <button
+                            className={cx('video-favorite', {
+                                'heart-animation':
+                                    isFavoriteAdded && animateLike,
+                            })}
+                            onClick={handleFavoriteClick}
+                        >
+                            <span
+                                className={cx('video-favorite-icon', {
+                                    favoriteAdded: isFavoriteAdded,
+                                })}
+                            >
+                                <img
                                     className={cx('video-icon')}
-                                    icon={faBookmark}
+                                    src={
+                                        isFavoriteAdded
+                                            ? images.favoriteAdded
+                                            : images.favorite
+                                    }
+                                    alt="favorite"
                                 />
-                                {/* <img
-                                    className={cx('video-icon')}
-                                    src={images.favorite}
-                                    alt="like"
-                                /> */}
                             </span>
                             <strong className={cx('text-icon')}>
-                                {video.shares_count}
+                                {isFavoriteAdded
+                                    ? video.shares_count + 1
+                                    : video.shares_count}
                             </strong>
                         </button>
-                        <Menu items={fileShareVideo} placement="top-start">
-                            <button className={cx('video-share')}>
+                        <button className={cx('video-share')}>
+                            <Menu
+                                items={fiveShareVideo}
+                                placement="top-start"
+                                shareMoreButton={true}
+                                remainingShareVideo={remainingShareVideo}
+                            >
                                 <span className={cx('video-share-icon')}>
                                     {/* <FontAwesomeIcon
                                     className={cx('icon')}
@@ -164,11 +208,11 @@ function VideoItem({ video }) {
                                         alt="share"
                                     />
                                 </span>
-                                <strong className={cx('text-icon')}>
-                                    {video.shares_count}
-                                </strong>
-                            </button>
-                        </Menu>
+                            </Menu>
+                            <strong className={cx('text-icon')}>
+                                {video.shares_count}
+                            </strong>
+                        </button>
                     </div>
                 </div>
             </div>
