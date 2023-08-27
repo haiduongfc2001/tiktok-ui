@@ -15,6 +15,7 @@ const defaultFn = () => {};
 function Menu({
     children,
     items = [],
+    placement,
     hideOnClick = false,
     onChange = defaultFn,
 }) {
@@ -67,7 +68,7 @@ function Menu({
             delay={[0, 700]}
             offset={[12, 8]}
             hideOnClick={hideOnClick}
-            placement="bottom-end"
+            placement={placement}
             render={renderResult}
             onHide={handleReset}
         >
@@ -79,6 +80,7 @@ function Menu({
 Menu.propTypes = {
     children: PropTypes.node.isRequired,
     items: PropTypes.array,
+    placement: PropTypes.string,
     hideOnClick: PropTypes.bool,
     onChange: PropTypes.func,
 };

@@ -293,6 +293,7 @@ function Header() {
 
                     <Menu
                         items={currentUser ? userMenu : MENU_ITEMS}
+                        placement="bottom-end"
                         onChange={handleMenuChange}
                     >
                         {currentUser ? (
