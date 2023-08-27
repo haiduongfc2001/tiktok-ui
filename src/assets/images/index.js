@@ -26,6 +26,10 @@ const images = {
     shareLine: require('~/assets/images/shareVideo/shareLine.svg').default,
     sharePinterest: require('~/assets/images/shareVideo/sharePinterest.svg')
         .default,
+    shareMore: require('~/assets/images/shareVideo/shareMore.svg').default,
+
+    liked: require('~/assets/images/video-liked.svg').default,
+    favoriteAdded: require('~/assets/images/video-favorite-added.svg').default,
 
     noImage: require('~/assets/images/no-image.png'),
 };
