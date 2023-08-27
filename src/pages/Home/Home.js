@@ -21,7 +21,7 @@ function Home() {
                 type: typeParams,
                 page,
             });
-            console.log(result);
+            // console.log(result);
             setListVideos(result);
         };
 
