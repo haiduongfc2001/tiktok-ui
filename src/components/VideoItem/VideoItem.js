@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import routes from '~/config/routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import images from '~/assets/images';
 
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from '../Image';
 import Menu from '../Popper/Menu';
 import { shareVideo } from './shareVideo';
@@ -26,6 +25,42 @@ function VideoItem({ video }) {
     const [isLiked, setIsLiked] = useState(false);
     const [isFavoriteAdded, setIsFavoriteAdded] = useState(false);
     const [animateLike, setAnimateLike] = useState(false); // New state for animation
+
+    const [isPlaying, setIsPlaying] = useState(false);
+    const videoRef = useRef(null);
+
+    const handleTogglePlay = () => {
+        if (isPlaying) {
+            videoRef.current.pause();
+        } else {
+            videoRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    useEffect(() => {
+        const videoElement = videoRef.current;
+
+        const observerOptions = {
+            threshold: 0.5, // Intersection threshold
+        };
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                videoElement.play();
+                setIsPlaying(true);
+            } else {
+                videoElement.pause();
+                setIsPlaying(false);
+            }
+        }, observerOptions);
+
+        observer.observe(videoElement);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
@@ -93,15 +128,10 @@ function VideoItem({ video }) {
                     </div>
                     {video.music && (
                         <div className={cx('video-music')}>
-                            {/* <img
-                            src={images.music}
-                            className={cx('video-music-icon')}
-                            alt="icon music"
-                        /> */}
-
-                            <FontAwesomeIcon
+                            <img
+                                src={images.music}
                                 className={cx('video-music-icon')}
-                                icon={faMusic}
+                                alt="icon music"
                             />
                             <Link to={'/'} className={cx('video-music-link')}>
                                 {video.music}
@@ -112,15 +142,38 @@ function VideoItem({ video }) {
 
                 <div className={cx('video')}>
                     <div className={cx('video-play')}>
-                        <video
-                            className={cx('video-tag')}
-                            controls
-                            // autoPlay
-                            // muted
-                            loop
-                        >
-                            <source src={video.file_url} type="video/mp4" />
-                        </video>
+                        <>
+                            <video
+                                className={cx('video-tag')}
+                                ref={videoRef}
+                                // controls={isPlaying}
+                                autoPlay={false}
+                                muted
+                                poster={video.thumb_url}
+                                loop
+                            >
+                                <source src={video.file_url} type="video/mp4" />
+                            </video>
+                        </>
+                        <div className={cx('video-control')}>
+                            <button
+                                className={cx('bottom-left-button')}
+                                onClick={handleTogglePlay}
+                            >
+                                <img
+                                    src={
+                                        !isPlaying ? images.play : images.pause
+                                    }
+                                    alt="toggle play"
+                                />
+                            </button>
+                            <button
+                                className={cx('bottom-right-button')}
+                                onClick={handleTogglePlay}
+                            >
+                                <img src={images.muted} alt="muted video" />
+                            </button>
+                        </div>
                     </div>
                     <div className={cx('video-interaction')}>
                         <button
@@ -148,10 +201,6 @@ function VideoItem({ video }) {
                         </button>
                         <button className={cx('video-comment')}>
                             <span className={cx('video-comment-icon')}>
-                                {/* <FontAwesomeIcon
-                                    className={cx('icon')}
-                                    icon={faCommentDots}
-                                /> */}
                                 <img
                                     className={cx('video-icon', 'comment-icon')}
                                     src={images.comment}
