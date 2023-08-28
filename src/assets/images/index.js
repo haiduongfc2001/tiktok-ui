@@ -3,6 +3,8 @@ const images = {
     languages: require('~/assets/images/languages.svg').default,
     dot: require('~/assets/images/following-dot.svg').default,
 
+    music: require('~/assets/images/video-music.svg').default,
+
     like: require('~/assets/images/video-like.svg').default,
     comment: require('~/assets/images/video-comment.svg').default,
     favorite: require('~/assets/images/video-favorite.svg').default,
@@ -30,6 +32,12 @@ const images = {
 
     liked: require('~/assets/images/video-liked.svg').default,
     favoriteAdded: require('~/assets/images/video-favorite-added.svg').default,
+
+    play: require('~/assets/images/controlVideo/video-play.svg').default,
+    pause: require('~/assets/images/controlVideo/video-pause.svg').default,
+    muted: require('~/assets/images/controlVideo/video-muted.svg').default,
+    fullVolume: require('~/assets/images/controlVideo/video-full-volume.svg')
+        .default,
 
     noImage: require('~/assets/images/no-image.png'),
 };
