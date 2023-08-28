@@ -226,6 +226,8 @@
         border-radius: 8px;
         margin-right: 20px;
 
+        position: relative;
+
         // position: absolute;
         // left: 0px;
         // top: 0px;
@@ -238,6 +240,14 @@
             display: block;
             object-fit: cover;
             border-radius: 8px;
+
+            &::-webkit-media-controls-fullscreen-button {
+                display: none;
+            }
+
+            &::-webkit-media-controls-play-button {
+                display: none;
+            }
         }
     }
 
@@ -343,5 +353,26 @@
     }
     100% {
         transform: scale(1);
+    }
+}
+
+.video-control {
+    padding: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .bottom-left-button,
+    .bottom-right-button {
+        margin: 4px 24px;
+        -webkit-transition: opacity 0.3s;
+        transition: opacity 0.3s;
+    }
+
+    & button {
+        background-color: transparent;
     }
 }
