@@ -58,6 +58,10 @@ input,
     outline: none;
 }
 
+button {
+    cursor: pointer;
+}
+
 a {
     color: var(--text-color);
     text-decoration: none;
