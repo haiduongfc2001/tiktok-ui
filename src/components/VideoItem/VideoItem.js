@@ -16,7 +16,6 @@ const cx = classNames.bind(styles);
 
 function VideoItem({ video }) {
     const [showFullContent, setShowFullContent] = useState(false);
-    // const [volume, setVolume] = useState(false);
 
     const videoInfoUser = video.user;
     const fiveShareVideo = shareVideo.slice(0, 5);
@@ -24,9 +23,11 @@ function VideoItem({ video }) {
 
     const [isLiked, setIsLiked] = useState(false);
     const [isFavoriteAdded, setIsFavoriteAdded] = useState(false);
-    const [animateLike, setAnimateLike] = useState(false); // New state for animation
+    const [animateLike, setAnimateLike] = useState(false);
+    const [animateFavorite, setAnimateFavorite] = useState(false);
 
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
     const videoRef = useRef(null);
 
     const handleTogglePlay = () => {
@@ -36,6 +37,10 @@ function VideoItem({ video }) {
             videoRef.current.play();
         }
         setIsPlaying(!isPlaying);
+    };
+
+    const handleToggleVolume = () => {
+        setIsMuted(!isMuted);
     };
 
     useEffect(() => {
@@ -72,9 +77,9 @@ function VideoItem({ video }) {
 
     const handleFavoriteClick = () => {
         setIsFavoriteAdded(!isFavoriteAdded);
-        setAnimateLike(true); // Trigger animation
+        setAnimateFavorite(true); // Trigger animation
         setTimeout(() => {
-            setAnimateLike(false); // Reset animation after it finishes
+            setAnimateFavorite(false); // Reset animation after it finishes
         }, 600); // Animation duration
     };
 
@@ -148,7 +153,7 @@ function VideoItem({ video }) {
                                 ref={videoRef}
                                 // controls={isPlaying}
                                 autoPlay={false}
-                                muted
+                                muted={!isMuted}
                                 poster={video.thumb_url}
                                 loop
                             >
@@ -167,10 +172,26 @@ function VideoItem({ video }) {
                                     alt="toggle play"
                                 />
                             </button>
+
                             <button
                                 className={cx('bottom-right-button')}
-                                onClick={handleTogglePlay}
+                                onClick={handleToggleVolume}
                             >
+                                <div className={cx('video-volume')}>
+                                    <div
+                                        className={cx('video-volume-scroll')}
+                                    ></div>
+                                    <div
+                                        className={cx('video-volume-circle')}
+                                        style={{ transform: 'translateY(0px)' }}
+                                    ></div>
+                                    <div
+                                        className={cx(
+                                            'video-volume-controll-bar',
+                                        )}
+                                        style={{ transform: 'scaleY(0' }}
+                                    ></div>
+                                </div>
                                 <img src={images.muted} alt="muted video" />
                             </button>
                         </div>
@@ -213,8 +234,8 @@ function VideoItem({ video }) {
                         </button>
                         <button
                             className={cx('video-favorite', {
-                                'heart-animation':
-                                    isFavoriteAdded && animateLike,
+                                'favorite-animation':
+                                    isFavoriteAdded && animateFavorite,
                             })}
                             onClick={handleFavoriteClick}
                         >

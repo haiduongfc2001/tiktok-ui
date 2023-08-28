@@ -335,6 +335,10 @@
     animation: heartBeat 0.6s;
 }
 
+.favorite-animation {
+    animation: heartBeat 0.6s;
+}
+
 @keyframes heartBeat {
     0% {
         transform: scale(1);
@@ -370,9 +374,67 @@
         margin: 4px 24px;
         -webkit-transition: opacity 0.3s;
         transition: opacity 0.3s;
+        position: relative;
+    }
+
+    .bottom-right-button:hover .video-volume {
+        display: block;
     }
 
     & button {
         background-color: transparent;
+    }
+}
+
+.video-volume {
+    width: 24px;
+    height: 64px;
+    margin: 8px 7px 0px;
+    display: block;
+    position: relative;
+    cursor: initial;
+    background: rgba(22, 24, 35, 0.34);
+    border-radius: 32px;
+    display: none;
+
+    position: absolute;
+    left: -8px;
+    bottom: 110%;
+
+    .video-volume-scroll {
+        width: 2px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.34);
+        position: absolute;
+        left: 11px;
+        top: 8px;
+        bottom: 8px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .video-volume-circle {
+        width: 12px;
+        height: 12px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 12px;
+        position: absolute;
+        left: 6px;
+        bottom: 8px;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .video-volume-controll-bar {
+        width: 2px;
+        height: 48px;
+        background-color: rgb(255, 255, 255);
+        position: absolute;
+        left: 11px;
+        bottom: 8px;
+        cursor: pointer;
+        transform: scaleY(0);
+        transform-origin: center bottom;
+        border-radius: 4px;
     }
 }
