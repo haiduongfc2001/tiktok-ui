@@ -399,7 +399,7 @@
 
     position: absolute;
     left: -8px;
-    bottom: 110%;
+    bottom: 100%;
 
     .video-volume-scroll {
         width: 2px;
@@ -423,6 +423,10 @@
         bottom: 8px;
         cursor: pointer;
         z-index: 1;
+        transform: rotate(-90deg);
+        position: absolute;
+        top: 26px;
+        left: -23px;
     }
 
     .video-volume-controll-bar {
@@ -437,4 +441,104 @@
         transform-origin: center bottom;
         border-radius: 4px;
     }
+}
+
+.video-control-container {
+    width: 100%;
+    height: 16px;
+    padding-inline: 12px;
+    position: absolute;
+    // opacity: 0;
+    transition: opacity 0.3s ease 0s;
+    bottom: 12px;
+    cursor: initial;
+    display: flex;
+}
+
+.video-control-container:hover .video-control-container {
+    opacity: 1;
+}
+
+.seek-bar-container {
+    width: 100%;
+    height: 16px;
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.video-control-container:hover .seek-bar-progress {
+    height: 4px;
+}
+
+.seek-bar-progress {
+    height: 2px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.34);
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.video-control-container:hover .seek-bar-circle {
+    display: block;
+}
+
+.seek-bar-circle {
+    display: none;
+    width: 12px;
+    height: 12px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.video-control-container:hover .seek-bar {
+    height: 4px;
+}
+.seek-bar {
+    height: 2px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transform-origin: left center;
+}
+
+.seek-bar-time-container {
+    flex: 0 0 64px;
+    max-width: 64px;
+    margin-inline-start: 8px;
+    font-size: 10px;
+    line-height: 16px;
+    color: rgb(255, 255, 255);
+    text-align: end;
+    white-space: nowrap;
+    font-feature-settings: 'tnum';
+    font-variant-numeric: tabular-nums;
+    font-family: Tahoma, PingFangSC, sans-serif;
+}
+
+/* Add styles for the volume control input */
+.video-control input[type='range'] {
+    width: 50px;
+    margin: 0 10px;
+    appearance: none;
+    background: transparent;
+}
+
+.video-control input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    cursor: pointer;
 }
