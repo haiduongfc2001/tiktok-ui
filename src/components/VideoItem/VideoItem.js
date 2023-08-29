@@ -29,8 +29,12 @@ function VideoItem({ video }) {
     const [animateFavorite, setAnimateFavorite] = useState(false);
 
     const [isPlaying, setIsPlaying] = useState(false);
-    const [volume, setVolume] = useState(0); // Initial volume is 100% (1)
+    const [volume, setVolume] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+
     const videoRef = useRef(null);
+    const seekBarContainerRef = useRef(null);
 
     const handleTogglePlay = () => {
         if (isPlaying) {
@@ -59,7 +63,7 @@ function VideoItem({ video }) {
         const videoElement = videoRef.current;
 
         const observerOptions = {
-            threshold: 0.5, // Intersection threshold
+            threshold: 0.5,
         };
 
         const observer = new IntersectionObserver(([entry]) => {
@@ -74,25 +78,93 @@ function VideoItem({ video }) {
 
         observer.observe(videoElement);
 
+        const handleTimeUpdate = () => {
+            setCurrentTime(videoRef.current.currentTime);
+        };
+
+        videoElement.addEventListener('timeupdate', handleTimeUpdate);
+
         return () => {
             observer.disconnect();
+            videoElement.removeEventListener('timeupdate', handleTimeUpdate);
         };
     }, []);
 
+    const handleDragStart = () => {
+        setIsDragging(true);
+    };
+
+    const handleDrag = (e) => {
+        if (isDragging) {
+            const seekBarContainerRect =
+                seekBarContainerRef.current.getBoundingClientRect();
+            const clickPositionX = e.clientX - seekBarContainerRect.left;
+            const seekBarContainerWidth = seekBarContainerRect.width;
+            const clickRatio = clickPositionX / seekBarContainerWidth;
+
+            const newTime = video.meta.playtime_seconds * clickRatio;
+            setCurrentTime(newTime);
+        }
+    };
+
+    const handleDragEnd = () => {
+        if (isDragging) {
+            setIsDragging(false);
+            videoRef.current.currentTime = currentTime;
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousemove', handleDrag);
+        document.addEventListener('mouseup', handleDragEnd);
+
+        return () => {
+            document.removeEventListener('mousemove', handleDrag);
+            document.removeEventListener('mouseup', handleDragEnd);
+        };
+    }, [isDragging]);
+
+    const handleSeekContainerClick = (e) => {
+        // Truy xuất thông tin vị trí và kích thước của vùng thanh seek-bar khi click chuột
+        const seekBarContainerRect = e.target.getBoundingClientRect();
+
+        //  `seekBarContainerRect` là một đối tượng chứa các thuộc tính như
+        // `left`, `top`, `right`, `bottom`, `width` và `height`, mô tả kích thước và vị trí của vùng chứa thanh seek-bar so với viewport.
+        //  `e.clientX` là vị trí nằm ngang (tọa độ X) của sự kiện nhấp chuột, so với khung nhìn.
+        // `seekBarContainerRect.left` là tọa độ X của cạnh trái của vùng chứa thanh seek-bar so với khung nhìn.
+        // `clickPositionX` tính toán khoảng cách theo chiều ngang giữa cạnh trái của vùng chứa thanh seek-bar
+        // và điểm mà người dùng đã nhấp vào, cung cấp  vị trí của lần nhấp chuột so với vùng chứa thanhseek-bar.
+        const clickPositionX = e.clientX - seekBarContainerRect.left;
+        // `seekBarContainerRect.width` là chiều rộng của vùng chứa thanh seek-bar.
+        const seekBarContainerWidth = seekBarContainerRect.width;
+        // `clickRatio` tính toán tỷ lệ của vị trí nhấp chuột so với chiều rộng của vùng chứa thanh seek-bar.
+        // Tỷ lệ này thể hiện khoảng cách dọc theo thanh seek-bar mà người dùng đã nhấp vào.
+        const clickRatio = clickPositionX / seekBarContainerWidth;
+        //  `newTime` tính toán thời gian mong muốn trong video tương ứng với vị trí mà người dùng đã nhấp vào.
+        const newTime = video.meta.playtime_seconds * clickRatio;
+
+        // `videoRef.current.currentTime = newTime;` cập nhật thời gian hiện tại của video bằng cách sử dụng `videoRef`.
+        // Điều này sẽ làm cho video tìm kiếm thời gian mới.
+        videoRef.current.currentTime = newTime;
+        // cập nhật trạng thái `currentTime` của thành phần để phản ánh thời gian mới,
+        // đảm bảo rằng màn hình UI khớp với thời gian video hiện tại.
+        setCurrentTime(newTime);
+    };
+
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
-        setAnimateLike(true); // Trigger animation
+        setAnimateLike(true);
         setTimeout(() => {
-            setAnimateLike(false); // Reset animation after it finishes
-        }, 600); // Animation duration
+            setAnimateLike(false);
+        }, 600);
     };
 
     const handleFavoriteClick = () => {
         setIsFavoriteAdded(!isFavoriteAdded);
-        setAnimateFavorite(true); // Trigger animation
+        setAnimateFavorite(true);
         setTimeout(() => {
-            setAnimateFavorite(false); // Reset animation after it finishes
-        }, 600); // Animation duration
+            setAnimateFavorite(false);
+        }, 600);
     };
 
     return (
@@ -175,9 +247,7 @@ function VideoItem({ video }) {
                             <video
                                 className={cx('video-tag')}
                                 ref={videoRef}
-                                // controls={isPlaying}
                                 autoPlay={false}
-                                // muted={true}
                                 muted={volume === 0}
                                 poster={video.thumb_url}
                                 loop
@@ -212,10 +282,6 @@ function VideoItem({ video }) {
                                         onChange={handleVolumeChange}
                                         className={cx('video-volume-circle')}
                                     />
-                                    {/* <div
-                                        className={cx('video-volume-circle')}
-                                        style={{ transform: 'translateY(0px)' }}
-                                    ></div> */}
                                     <div
                                         className={cx(
                                             'video-volume-controll-bar',
@@ -236,29 +302,47 @@ function VideoItem({ video }) {
                             </div>
                         </div>
                         <div className={cx('video-control-container')}>
-                            <div className={cx('seek-bar-container')}>
+                            <div
+                                className={cx('seek-bar-container')}
+                                ref={seekBarContainerRef}
+                                onClick={(e) => handleSeekContainerClick(e)}
+                            >
                                 <div
                                     tabIndex="0"
                                     role="slider"
                                     aria-label="Video progress"
-                                    aria-valuenow="0.04639092173737828"
-                                    aria-valuetext="00:11"
+                                    aria-valuenow={
+                                        currentTime /
+                                        video.meta.playtime_seconds
+                                    }
+                                    aria-valuetext={formatTime(currentTime)}
                                     className={cx('seek-bar-progress')}
                                 ></div>
                                 <div
                                     className={cx('seek-bar-circle')}
-                                    style={{ left: 'calc(4.63909%)' }}
+                                    style={{
+                                        left: `calc(${
+                                            (currentTime /
+                                                video.meta.playtime_seconds) *
+                                            100
+                                        }%)`,
+                                    }}
+                                    onMouseDown={handleDragStart}
                                 ></div>
+
                                 <div
                                     className={cx('seek-bar')}
                                     style={{
-                                        transform:
-                                            'scaleX(0.0463909) translateY(-50%)',
+                                        transform: `scaleX(${
+                                            currentTime /
+                                            video.meta.playtime_seconds
+                                        }) translateY(-50%)`,
                                     }}
                                 ></div>
                             </div>
                             <div className={cx('seek-bar-time-container')}>
-                                00:11/{formatTime(video.meta.playtime_seconds)}
+                                {formatTime(currentTime)}/
+                                {formatTime(video.meta.playtime_seconds)}
                             </div>
                         </div>
                     </div>
