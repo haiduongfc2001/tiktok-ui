@@ -3,18 +3,6 @@
     width: 224px;
     padding: 20px 0 26px 8px;
     margin-left: -18px;
-
-    position: fixed;
-    top: var(--default-margin-top);
-
-    // Scrollbar CSS
-    &:hover {
-        transition: opacity 2s ease;
-    }
-
-    &:not(:hover)::-webkit-scrollbar-thumb {
-        background-color: transparent !important;
-    }
 }
 
 .sidebar-menu {

@@ -10,9 +10,24 @@
     padding: 0 var(--defult-layout-horizontal-spacer);
     display: flex;
     margin-top: var(--default-layout-header-height);
+    display: flex;
 }
 
-.sidebar,
+// .sidebar,
 .content {
     flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar {
+    flex: 0 0 250px;
+    height: 100vh;
+    overflow-y: hidden; /* Start with hidden overflow */
+    position: sticky;
+    top: var(--default-layout-header-height);
+    scroll-behavior: smooth; /* Add smooth scrolling behavior */
+
+    &:hover {
+        overflow-y: auto; /* Show scrollbar on hover */
+    }
 }
