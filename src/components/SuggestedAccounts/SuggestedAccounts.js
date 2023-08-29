@@ -1,7 +1,9 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './SuggestedAccounts.module.scss';
 import AccountItem from './AccountItem';
+import ForwardedAccountContent from './AccountContent';
 
 const cx = classNames.bind(styles);
 
@@ -16,7 +18,11 @@ function SuggestedAccounts({
             <p className={cx('label')}>{label}</p>
 
             {data.map((account, index) => (
-                <AccountItem key={index} data={account} />
+                <AccountItem
+                    key={index}
+                    data={account}
+                    content={<ForwardedAccountContent data={account} />}
+                />
             ))}
 
             <p

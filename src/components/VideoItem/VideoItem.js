@@ -12,6 +12,7 @@ import Image from '../Image';
 import Menu from '../Popper/Menu';
 import { shareVideo } from './shareVideo';
 import formatTime from '~/utils/formatTimeVideo';
+import AccountItem from '~/components/SuggestedAccounts/AccountItem';
 
 const cx = classNames.bind(styles);
 
@@ -96,29 +97,41 @@ function VideoItem({ video }) {
 
     return (
         <div className={cx('content')}>
-            <Link to={routes.profile}>
-                <Image
-                    className={cx('user-avatar')}
-                    src={videoInfoUser.avatar}
-                    alt={videoInfoUser.nickname}
-                />
-            </Link>
+            <AccountItem
+                data={videoInfoUser}
+                content={
+                    <Link to={routes.profile}>
+                        <Image
+                            className={cx('user-avatar')}
+                            src={videoInfoUser.avatar}
+                            alt={videoInfoUser.nickname}
+                        />
+                    </Link>
+                }
+            />
+
             <div className={cx('video-content')}>
                 <div className={cx('video-info')}>
-                    <div className={cx('user-info')}>
-                        <span className={cx('nickname')}>
-                            {videoInfoUser.nickname}
-                        </span>
-                        {videoInfoUser.tick && (
-                            <FontAwesomeIcon
-                                className={cx('check')}
-                                icon={faCheckCircle}
-                            />
-                        )}
-                        <span
-                            className={cx('name')}
-                        >{`${videoInfoUser.first_name} ${videoInfoUser.last_name}`}</span>
-                    </div>
+                    <AccountItem
+                        data={videoInfoUser}
+                        content={
+                            <div className={cx('user-info')}>
+                                <span className={cx('nickname')}>
+                                    {videoInfoUser.nickname}
+                                </span>
+                                {videoInfoUser.tick && (
+                                    <FontAwesomeIcon
+                                        className={cx('check')}
+                                        icon={faCheckCircle}
+                                    />
+                                )}
+                                <span
+                                    className={cx('name')}
+                                >{`${videoInfoUser.first_name} ${videoInfoUser.last_name}`}</span>
+                            </div>
+                        }
+                    />
+
                     <Button outline className={cx('follow-btn')}>
                         {videoInfoUser.is_followed ? 'Following' : 'Follow'}
                     </Button>
