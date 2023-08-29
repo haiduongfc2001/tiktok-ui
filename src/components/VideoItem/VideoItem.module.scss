@@ -20,6 +20,7 @@
 .user-info {
     display: flex;
     align-items: center;
+    cursor: pointer;
     // flex-direction: column;
 
     .nickname {
@@ -31,7 +32,6 @@
         margin-right: 4px;
 
         &:hover {
-            cursor: pointer;
             color: rgba(22, 24, 35, 1);
             text-decoration: underline;
         }
