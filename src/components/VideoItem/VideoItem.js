@@ -11,6 +11,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from '../Image';
 import Menu from '../Popper/Menu';
 import { shareVideo } from './shareVideo';
+import formatTime from '~/utils/formatTimeVideo';
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +28,7 @@ function VideoItem({ video }) {
     const [animateFavorite, setAnimateFavorite] = useState(false);
 
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [volume, setVolume] = useState(0); // Initial volume is 100% (1)
     const videoRef = useRef(null);
 
     const handleTogglePlay = () => {
@@ -40,7 +41,17 @@ function VideoItem({ video }) {
     };
 
     const handleToggleVolume = () => {
-        setIsMuted(!isMuted);
+        if (volume === 0) {
+            setVolume(1);
+        } else {
+            setVolume(0);
+        }
+    };
+
+    const handleVolumeChange = (event) => {
+        const newVolume = parseFloat(event.target.value);
+        setVolume(newVolume);
+        videoRef.current.volume = newVolume;
     };
 
     useEffect(() => {
@@ -153,7 +164,8 @@ function VideoItem({ video }) {
                                 ref={videoRef}
                                 // controls={isPlaying}
                                 autoPlay={false}
-                                muted={!isMuted}
+                                // muted={true}
+                                muted={volume === 0}
                                 poster={video.thumb_url}
                                 loop
                             >
@@ -173,27 +185,68 @@ function VideoItem({ video }) {
                                 />
                             </button>
 
-                            <button
-                                className={cx('bottom-right-button')}
-                                onClick={handleToggleVolume}
-                            >
+                            <div className={cx('bottom-right-button')}>
                                 <div className={cx('video-volume')}>
                                     <div
                                         className={cx('video-volume-scroll')}
                                     ></div>
-                                    <div
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="1"
+                                        step="0.01"
+                                        value={volume}
+                                        onChange={handleVolumeChange}
+                                        className={cx('video-volume-circle')}
+                                    />
+                                    {/* <div
                                         className={cx('video-volume-circle')}
                                         style={{ transform: 'translateY(0px)' }}
-                                    ></div>
+                                    ></div> */}
                                     <div
                                         className={cx(
                                             'video-volume-controll-bar',
                                         )}
-                                        style={{ transform: 'scaleY(0' }}
+                                        style={{ transform: 'scaleY(0)' }}
                                     ></div>
                                 </div>
-                                <img src={images.muted} alt="muted video" />
-                            </button>
+                                <button onClick={handleToggleVolume}>
+                                    <img
+                                        src={
+                                            volume === 0
+                                                ? images.muted
+                                                : images.fullVolume
+                                        }
+                                        alt="muted video"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                        <div className={cx('video-control-container')}>
+                            <div className={cx('seek-bar-container')}>
+                                <div
+                                    tabIndex="0"
+                                    role="slider"
+                                    aria-label="Video progress"
+                                    aria-valuenow="0.04639092173737828"
+                                    aria-valuetext="00:11"
+                                    className={cx('seek-bar-progress')}
+                                ></div>
+                                <div
+                                    className={cx('seek-bar-circle')}
+                                    style={{ left: 'calc(4.63909%)' }}
+                                ></div>
+                                <div
+                                    className={cx('seek-bar')}
+                                    style={{
+                                        transform:
+                                            'scaleX(0.0463909) translateY(-50%)',
+                                    }}
+                                ></div>
+                            </div>
+                            <div className={cx('seek-bar-time-container')}>
+                                00:11/{formatTime(video.meta.playtime_seconds)}
+                            </div>
                         </div>
                     </div>
                     <div className={cx('video-interaction')}>
@@ -268,10 +321,6 @@ function VideoItem({ video }) {
                                 remainingShareVideo={remainingShareVideo}
                             >
                                 <span className={cx('video-share-icon')}>
-                                    {/* <FontAwesomeIcon
-                                    className={cx('icon')}
-                                    icon={faShare}
-                                /> */}
                                     <img
                                         className={cx('video-icon')}
                                         src={images.share}
