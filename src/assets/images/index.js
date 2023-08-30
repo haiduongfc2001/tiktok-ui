@@ -5,11 +5,13 @@ const images = {
 
     music: require('~/assets/images/video-music.svg').default,
 
+    // video interactions
     like: require('~/assets/images/video-like.svg').default,
     comment: require('~/assets/images/video-comment.svg').default,
     favorite: require('~/assets/images/video-favorite.svg').default,
     share: require('~/assets/images/video-share.svg').default,
 
+    // share video
     embed: require('~/assets/images/shareVideo/embed.svg').default,
     sendFriend: require('~/assets/images/shareVideo/sendFriend.svg').default,
     shareFacebook: require('~/assets/images/shareVideo/shareFacebook.svg')
@@ -30,15 +32,28 @@ const images = {
         .default,
     shareMore: require('~/assets/images/shareVideo/shareMore.svg').default,
 
+    // icon đã like và icon đã yêu thích
     liked: require('~/assets/images/video-liked.svg').default,
     favoriteAdded: require('~/assets/images/video-favorite-added.svg').default,
 
+    // icon phát, dừng, tắt tiếng và bật tiếng của video
     play: require('~/assets/images/controlVideo/video-play.svg').default,
     pause: require('~/assets/images/controlVideo/video-pause.svg').default,
     muted: require('~/assets/images/controlVideo/video-muted.svg').default,
     fullVolume: require('~/assets/images/controlVideo/video-full-volume.svg')
         .default,
 
+    // các icon khi click chuột phải vào video
+    downRiMou: require('~/assets/images/rightClickVideo/downloadVideo.svg')
+        .default,
+    sendToFriend: require('~/assets/images/rightClickVideo/sendToFriend.svg')
+        .default,
+    copyLinkVideo: require('~/assets/images/rightClickVideo/copyLinkVideo.svg')
+        .default,
+    detailsVideo: require('~/assets/images/rightClickVideo/detailsVideo.svg')
+        .default,
+
+    // khi ảnh bị lỗi sẽ có 1 ảnh để thay thế
     noImage: require('~/assets/images/no-image.png'),
 };
 

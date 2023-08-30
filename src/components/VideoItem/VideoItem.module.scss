@@ -225,6 +225,7 @@
         align-items: center;
         border-radius: 8px;
         margin-right: 20px;
+        cursor: pointer;
 
         position: relative;
 
@@ -541,4 +542,27 @@
     background: rgb(255, 255, 255);
     border-radius: 50%;
     cursor: pointer;
+}
+
+.context-menu nav {
+    padding: 0px;
+    margin: 0px;
+    width: 200px;
+    list-style: none;
+    box-sizing: border-box;
+    border-radius: 8px;
+    user-select: none;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 8px 32px;
+    background: rgb(255, 255, 255);
+    opacity: 0.95;
+    z-index: 10500;
+
+    &:first-child {
+        margin-left: 8px;
+    }
+}
+
+nav button {
+    border-radius: 8px !important;
+    margin-left: 0px !important;
 }

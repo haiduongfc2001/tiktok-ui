@@ -7,12 +7,13 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import images from '~/assets/images';
 
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from '../Image';
 import Menu from '../Popper/Menu';
 import { shareVideo } from './shareVideo';
 import formatTime from '~/utils/formatTimeVideo';
 import AccountItem from '~/components/SuggestedAccounts/AccountItem';
+import ContentRightClick from './ContentRightClick';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +35,40 @@ function VideoItem({ video }) {
     const [isDragging, setIsDragging] = useState(false);
 
     const videoRef = useRef(null);
+    const containerRef = useRef(null);
     const seekBarContainerRef = useRef(null);
+
+    const [showRightMouse, setShowRightMouse] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    const handleContextMenu = (event) => {
+        event.preventDefault();
+
+        if (event.button === 2) {
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            setMousePosition({ x: mouseX, y: mouseY });
+            setShowRightMouse(true);
+        }
+    };
+
+    const handleClickOutside = (event) => {
+        if (
+            containerRef.current &&
+            !containerRef.current.contains(event.target) &&
+            videoRef.current &&
+            !videoRef.current.contains(event.target)
+        ) {
+            setShowRightMouse(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleTogglePlay = () => {
         if (isPlaying) {
@@ -243,7 +277,10 @@ function VideoItem({ video }) {
 
                 <div className={cx('video')}>
                     <div className={cx('video-play')}>
-                        <>
+                        <div
+                            onContextMenu={handleContextMenu}
+                            ref={containerRef}
+                        >
                             <video
                                 className={cx('video-tag')}
                                 ref={videoRef}
@@ -251,10 +288,23 @@ function VideoItem({ video }) {
                                 muted={volume === 0}
                                 poster={video.thumb_url}
                                 loop
+                                onContextMenu={handleContextMenu}
                             >
                                 <source src={video.file_url} type="video/mp4" />
                             </video>
-                        </>
+                            {showRightMouse && (
+                                <div
+                                    className={cx('context-menu')}
+                                    style={{
+                                        position: 'fixed',
+                                        left: mousePosition.x + 'px',
+                                        top: mousePosition.y + 'px',
+                                    }}
+                                >
+                                    <ContentRightClick />
+                                </div>
+                            )}
+                        </div>
                         <div className={cx('video-control')}>
                             <button
                                 className={cx('bottom-left-button')}
